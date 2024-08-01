@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "f15c273b-acf8-43db-8044-3fce6390c7ad",
+		"name": "Magnolia Homepage Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20182142"
+	},
+	"item": [
+		{
+			"name": "Login - Test, CSRF Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Extract CSRF token\", function () {\r",
+							"    var responseText = pm.response.text();\r",
+							"    \r",
+							"    // Debugging: Log die gesamte Antwort, um sicherzustellen, dass sie den erwarteten HTML-Inhalt enthält\r",
+							"    console.log(\"Response Text:\", responseText);\r",
+							"\r",
+							"    // Suche nach dem CSRF-Token im HTML-Text\r",
+							"    var match = responseText.match(/name=\"csrf\" value=\"([^\"]*)\"/);\r",
+							"    \r",
+							"    if (match && match[1]) {\r",
+							"        var csrfToken = match[1];\r",
+							"        pm.environment.set(\"csrfToken\", csrfToken);\r",
+							"        console.log(\"CSRF Token extracted:\", csrfToken);\r",
+							"    } else {\r",
+							"        // Fehlermeldung, falls der CSRF-Token nicht gefunden wird\r",
+							"        console.error(\"CSRF Token not found in response.\");\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "mgnlUserId",
+							"value": "superuser",
+							"type": "text"
+						},
+						{
+							"key": "mgnlUserPSWD",
+							"value": "superuser",
+							"type": "text"
+						},
+						{
+							"key": "csrf",
+							"value": "CxTcapfPjtyJEQYZE9LyeRXmnqGsDIanSs7ZWgLx-8_apAy4E3PO34B884x7vD-lpWWN_whfwndYD-fNRTpJIA:AAABkQm4LHY:PqTFZyYUCnGfgKv9Hu3IKw",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://demoauthor.magnolia-cms.com/travel",
+					"protocol": "https",
+					"host": [
+						"demoauthor",
+						"magnolia-cms",
+						"com"
+					],
+					"path": [
+						"travel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Extract CSRF token\", function () {\r",
+							"    var responseText = pm.response.text();\r",
+							"    \r",
+							"    // Debugging: Log die gesamte Antwort, um sicherzustellen, dass sie den erwarteten HTML-Inhalt enthält\r",
+							"    console.log(\"Response Text:\", responseText);\r",
+							"\r",
+							"    // Suche nach dem CSRF-Token im HTML-Text\r",
+							"    var match = responseText.match(/name=\"csrf\" value=\"([^\"]*)\"/);\r",
+							"    \r",
+							"    if (match && match[1]) {\r",
+							"        var csrfToken = match[1];\r",
+							"        pm.environment.set(\"csrfToken\", csrfToken);\r",
+							"        console.log(\"CSRF Token extracted:\", csrfToken);\r",
+							"    } else {\r",
+							"        // Fehlermeldung, falls der CSRF-Token nicht gefunden wird\r",
+							"        console.error(\"CSRF Token not found in response.\");\r",
+							"    }\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mgnlUserId\": \"superuser\",\r\n    \"mgnlUserPSWD\": \"superuser\",\r\n    \"csrf\" : \"CxTcapfPjtyJEQYZE9LyeRXmnqGsDIanSs7ZWgLx-8_apAy4E3PO34B884x7vD-lpWWN_whfwndYD-fNRTpJIA:AAABkQm4LHY:PqTFZyYUCnGfgKv9Hu3IKw\"\r\n\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demoauthor.magnolia-cms.com/travel",
+					"protocol": "https",
+					"host": [
+						"demoauthor",
+						"magnolia-cms",
+						"com"
+					],
+					"path": [
+						"travel"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login successful\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property('token');\r",
+							"    pm.environment.set(\"authToken\", jsonData.token);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"superuser\",\r\n  \"password\": \"superuser\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demoauthor.magnolia-cms.com/.rest/login",
+					"protocol": "https",
+					"host": [
+						"demoauthor",
+						"magnolia-cms",
+						"com"
+					],
+					"path": [
+						".rest",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"value": "",
+			"type": "string"
+		}
+	]
+}
